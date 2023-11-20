@@ -1,18 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-// import CustomToolTip from "../../Components/Tool Tip/custom_tool_tip";
-// import CustomAlert from "../../Components/Alert/custom_alert";
+
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-// import { useSession } from "next-auth/react";
+
 import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   // const { data: session, status } = useSession();
 
   const [SideBarOpen, setSideBarOpen] = useState(true);
-  const [ScreenWidth, setScreenWidth] = useState(window.innerWidth);  
+  const [ScreenWidth, setScreenWidth] = useState(0);  
   const UrlPath = usePathname();
   const drawerRef = useRef(null);
 
@@ -29,69 +28,45 @@ const Sidebar = () => {
   const LinksPatient = [
     {
       title: "Overview",
-      link: "/overview",
+      link: "/Dashboard/overview",
       src: "/icons/overview-icon.png",
     },
     {
       title: "All Users",
-      link: "/All-users",
+      link: "/Dashboard/All-users",
       src: "/icons/all-usernnew.png",
     },
     
   ];
-  // const LinksDoctor = [
-  //   {
-  //     title: "Overview",
-  //     link: "/dashboard/doctor",
-  //     src: "/icons/Dashboard navbar icons/overview_icon.svg",
-  //   },
-  //   {
-  //     title: "All Appointments",
-  //     link: "/dashboard/doctor/all-appointments",
-  //     src: "/icons/Dashboard navbar icons/calendar_icon.svg",
-  //   },
-  //   {
-  //     title: "Upcoming Appointments",
-  //     link: "/dashboard/doctor/upcoming-appointments",
-  //     src: "/icons/Dashboard navbar icons/calendar_icon.svg",
-  //   },
-  //   // {
-  //   //   title: "Notification",
-  //   //   link: "/dashboard/message",
-  //   //   src: "/icons/Dashboard navbar icons/message_icon.svg",
-  //   // },
-  //   // {
-  //   //   title: "Payment Information",
-  //   //   link: "/dashboard/my-family",
-  //   //   src: "/icons/Dashboard navbar icons/group_user_icon.svg",
-  //   // },
-  //   {
-  //     title: "Settings",
-  //     link: "/dashboard/doctor/settings",
-  //     src: "/icons/Dashboard navbar icons/setting_icon.svg",
-  //   },
-  // ];
-
+ 
   useEffect(() => {
-    // Define a function to update the screen ScreenWidth
-    function OnWindowResize() {
+    // Check if window is defined (available in the browser)
+    if (typeof window !== "undefined") {
+      // Initialize ScreenWidth after ensuring window is defined
       setScreenWidth(window.innerWidth);
-
-      if (window.innerWidth >= 992) {
-        setSideBarOpen(true);
-      } else {
-        setSideBarOpen(false);
+  
+      // Define a function to update the screen ScreenWidth
+      function OnWindowResize() {
+        setScreenWidth(window.innerWidth);
+  
+        if (window.innerWidth >= 992) {
+          setSideBarOpen(true);
+        } else {
+          setSideBarOpen(false);
+        }
       }
+  
+      // Add an event listener for the window's resize event
+      window.addEventListener("resize", OnWindowResize);
+  
+      // Cleanup the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("resize", OnWindowResize);
+      };
     }
-
-    // Add an event listener for the window's resize event
-    window.addEventListener("resize", OnWindowResize);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("resize", OnWindowResize);
-    };
   }, []);
+  
+  
 
   const OnClickOutSide = (event) => {
     if (
