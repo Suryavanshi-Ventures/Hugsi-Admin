@@ -8,20 +8,16 @@ const TopHeader = () => {
   const [SearchInputValue, setSearchInputValue] = useState("");
 
   return (
-    <section className="px-6 py-5 md:px-14 border-b border-primary ">
-      <div className="grid min-[576px]:grid-cols-2 items-center ">
+    <section className="px-6 py-5 md:px-14 border-b border-primary">
+      <div className="grid min-[576px]:grid-cols-2 items-center">
         {/* NAME SECTION */}
         <div>
-          {status === "loading" ? (
-            <div className="mb-1">
-              {/* <Skeleton item={1} style="h-5 w-20 rounded-lg" /> */}
-            </div>
-          ) : (
+         
             <h5 className="text-sm md:text-base font-semibold mb-1">
               Hi 
-              {/* {session.user.name} */}
+            
             </h5>
-          )}
+         
 
           <p className="font-bold text-lg md:text-2xl">Welcome Back!</p>
         </div>
