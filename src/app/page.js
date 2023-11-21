@@ -2,13 +2,13 @@
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function Home() {
   const [formData, setFormData] = useState({
     email_or_phone: "",
     password: "",
   });
-
+const router =useRouter()
   // Function to handle form input changes
   const handleInputChange = (e) => {
     setFormData({
@@ -17,31 +17,33 @@ export default function Home() {
     });
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(
-        "https://backend.hugsi.com/signin",
-        formData
-      );
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       "https://backend.hugsi.com/signin",
+  //       formData
+  //     );
 
-      // Check if 'response' is defined and has a 'data' property
-      if (response && response.data) {
-        console.log("Login successful", response.data);
-        console.log("Access Token:", response.access_token);
-        // Additional handling, e.g., redirect to dashboard
-      } else {
-        console.error("Invalid response format", response);
-        // Handle the case where the response does not have the expected structure
-      }
-    } catch (error) {
-      console.error(
-        "Login failed",
-        error.response ? error.response.data : error.message
-      );
-      // Handle other errors, e.g., display an error message
-    }
-  };
-
+  //     // Check if 'response' is defined and has a 'data' property
+  //     if (response && response.data) {
+  //       console.log("Login successful", response.data);
+  //       console.log("Access Token:", response.access_token);
+  //       // Additional handling, e.g., redirect to dashboard
+  //     } else {
+  //       console.error("Invalid response format", response);
+  //       // Handle the case where the response does not have the expected structure
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Login failed",
+  //       error.response ? error.response.data : error.message
+  //     );
+  //     // Handle other errors, e.g., display an error message
+  //   }
+  // };
+function handleLogin (){
+  router.push("/Dashboard/All-users")
+} 
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center">
