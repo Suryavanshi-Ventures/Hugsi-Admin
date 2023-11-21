@@ -19,12 +19,12 @@ export default function RootLayout({ children }) {
           <Sidebar />
 
           {/* Right Main section */}
-          <div className="w-full max-[992px]  rounded-[25px] ml-[250px] rounded-l-[25px]  z-0  h-fit ">
+          <div className="w-full max-[992px]  rounded-[25px] ml-[250px] rounded-l-[25px] bg-white  z-0  h-fit ">
             {/* Right TopBar */}
             <TopHeader />
             <hr />
             {/* OTHER CHILDREN WILL LOAD HERE */}
-            <div className="px-6  md:px-14 mt-[15px] ">{children}</div>
+            <div className="px-6  md:px-14 mt-[15px] bg-white">{children}</div>
             </div>
         </div>
       </body>

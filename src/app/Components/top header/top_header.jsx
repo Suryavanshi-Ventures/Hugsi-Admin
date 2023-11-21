@@ -25,7 +25,7 @@ const TopHeader = () => {
         {/* SEARCH INPUT SECTION */}
         <div className="flex mt-5 min-[576px]:mt-0  items-center justify-end">
           {/* NOTIFICATION */}
-          <div className="mr-8">
+          {/* <div className="mr-8">
             <svg
               className="cursor-pointer group"
               width="42"
@@ -40,7 +40,7 @@ const TopHeader = () => {
                 fill="#A8A6A6"
               />
             </svg>
-          </div>
+          </div> */}
           {/* SEARCH INPUT */}
           <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3 min-[576px]:pl-5">
