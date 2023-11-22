@@ -51,11 +51,11 @@ const Sidebar = () => {
             py-3 rounded-md w-full px-10 items-center
               ${
                 pathname === "/Dashboard/All-users"
-                  ? "rounded-md  bg-[#FFBF00] text-white "
+                  ? "rounded-md  bg-[#FFBF00] text-white"
                   : ""
               }`}
             >
-              <Image src="/icons/all-user-iconn.png" width={15} height={15} alt="image-icon"/>
+              <Image src="/icons/all-user.svg" width={18} height={18} alt="image-icon"/>
 
               <h2 className="">All Users</h2>
             </Link>
@@ -67,11 +67,11 @@ const Sidebar = () => {
             py-3 rounded-md w-full px-10 items-center cursor-pointer
               ${
                 pathname === "/Dashboard/contactus-inquires"
-                  ? "bg-[#FFBD59]  text-white rounded-md "
+                  ? "bg-[#FFBD59]  text-white rounded-md"
                   : ""
               }`}
             >
-             <Image src="/icons/logout-icon.png" width={15} height={15} alt="image-icon"/>
+             <Image src="/icons/logout-icon.png" width={17} height={17} alt="image-icon"/>
 
               <h2 className="">Logout</h2>
             </div>

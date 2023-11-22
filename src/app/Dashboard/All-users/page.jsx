@@ -1,123 +1,68 @@
-"use client"
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+"use client";
+import UserProfileModal from "@/app/Components/pop-up-allusers/page";
+import axios from "axios";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+
 // import axios from 'axios';
 
 function AllUsers() {
-//  const [users,setUsers]=useState()
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
+  const openModal = (user) => {
+    setSelectedUser(user);
+  };
 
-  const users = [
-  {
-    id: 1,
-    profile_pic: '/profile-pic.png',
-    name: 'User 1',
-    email: 'user1@example.com',
-    dob: '1990-01-01',
-    phone: '1234567890',
-  },
-  {
-    id: 2,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 3,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 4,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 5,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 6,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 7,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 8,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  {
-    id: 9,
-    profile_pic: '/profile-pic.png',
-    name: 'User 2',
-    email: 'user2@example.com',
-    dob: '1995-05-05',
-    phone: '9876543210',
-  },
-  // Add more users as needed
-];
-  // const fetchData = async () => {
-  //   try {
-  //     const item = "";
-     
-  //     const response = await axios.get("https://backend.hugsi.com/get_all_users", 
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${item}`,
-  //         },
-  //       }
-  //     );
-      
-  //     // setUsers(response.data.data);
-  //     setUsers(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
+  const closeModal = () => {
+    setSelectedUser(null);
+  };
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUsers(response.data.data); // Assuming you want to use response.data.data here
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
-      <h2 className='text-lg font-semibold mb-4 '>All users</h2>
+      <h2 className="text-lg font-semibold mb-4 ">All users</h2>
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-white uppercase bg-[#FFBF00] text-[15px]">
+          <thead className="text-white  bg-[#FFBF00] text-[15px]">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="  text-center py-3">
                 Profile Picture
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Email
               </th>
               <th scope="col" className="px-6 py-3">
@@ -126,44 +71,74 @@ function AllUsers() {
               <th scope="col" className="px-6 py-3">
                 Mobile Number
               </th>
+              <th scope="col" className="px-6 py-3">
+                
+              </th>
             </tr>
           </thead>
 
           <tbody>
-            {users.map((user, i) => (
-              <tr
-                key={user.id}
-                className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
-              >
-                <th
-                  scope="row"
-                  className="pl-[80px] font-medium text-gray-900 whitespace-nowrap dark:text-white border-gray-200 dark:border-gray-700"
-                >
-                  {user.profile_pic && (
-                    <Image
-                      src={user.profile_pic}
-                      alt={`Profile of ${user.name}`}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                  )}
-                </th>
-                <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.name}
-                </td>
-                <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.email}
-                </td>
-                <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.dob}
-                </td>
-                <td className="px-6 py-4">{user.phone}</td>
-              </tr>
-            ))}
-          </tbody>
+  {currentUsers.map((user, i) => (
+    <tr
+      key={user.id}
+      className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
+      
+    >
+      <td className="flex justify-center pt-[6px]" onClick={() => openModal(user)}>
+        <Image
+          src={user.profile_pic || "/na.png"}
+          alt={`${user.name}`}
+          width={40}
+          height={40}
+          className="rounded-full cursor-pointer"
+        />
+      </td>
+      <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
+        {user.name || "N/A"}
+      </td>
+      <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
+        {user.email || "N/A"}
+      </td>
+      <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
+        {user.dob || "N/A"}
+      </td>
+      <td className=" py-4">{user.phone || "N/A"}</td>
+      <td className="group relative m-12">
+  <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-black group-hover:scale-100 transition-all duration-300 ease-in-out">
+    View Profile
+  </span>
+  <Image
+    onClick={() => openModal(user)}
+    src="/icons/i-button.png"
+    width={25}
+    height={25}
+    alt="i-button"
+    className="cursor-pointer"
+  />
+</td>
+    </tr>
+  ))}
+</tbody>
+
         </table>
+
+        <div className="flex justify-center mt-4 ">
+          {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => paginate(index + 1)}
+              className={`px-3 py-2 mx-1 border ${
+                currentPage === index + 1 ? "bg-[#FFBF00] text-white" : "bg-[#FFEEB9]"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
+      {selectedUser && (
+        <UserProfileModal user={selectedUser} onClose={closeModal} />
+      )}
     </>
   );
 }

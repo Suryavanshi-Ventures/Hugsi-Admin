@@ -8,8 +8,9 @@ export default function Home() {
     email_or_phone: "",
     password: "",
   });
-const router =useRouter()
-  // Function to handle form input changes
+
+  const router = useRouter();
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -17,33 +18,37 @@ const router =useRouter()
     });
   };
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       "https://backend.hugsi.com/signin",
-  //       formData
-  //     );
+  const handleLogin = async (e) => {
+    console.log(process.env.NEXT_PUBLIC_API_URL, "jhvjhvmmhv");
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/signin`,
+        formData
+      );
+      console.log(response, "res");
+      if (response.data.status_code === 200) {
+        console.log("Login successful", response.data);
 
-  //     // Check if 'response' is defined and has a 'data' property
-  //     if (response && response.data) {
-  //       console.log("Login successful", response.data);
-  //       console.log("Access Token:", response.access_token);
-  //       // Additional handling, e.g., redirect to dashboard
-  //     } else {
-  //       console.error("Invalid response format", response);
-  //       // Handle the case where the response does not have the expected structure
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Login failed",
-  //       error.response ? error.response.data : error.message
-  //     );
-  //     // Handle other errors, e.g., display an error message
-  //   }
-  // };
-function handleLogin (){
-  router.push("/Dashboard/All-users")
-} 
+        // localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem(
+          "access_token",
+          `${process.env.NEXT_PUBLIC_TOKEN_NAME}`
+        );
+
+        router.push("/Dashboard/All-users");
+      } else {
+        console.error("Login failed", response.data);
+      }
+    } catch (error) {
+      console.error(
+        "Login failed",
+        error.response ? error.response.data : error.message
+      );
+      
+    }
+  };
+
+  
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center">
