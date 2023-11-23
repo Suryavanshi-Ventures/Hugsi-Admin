@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-[#FFEEB9] p-8 rounded shadow-md  w-1/2">
+        <div className="bg-[#FFEEB9] mx-[20px] md:p-8 rounded shadow-md w-full md:w-1/2">
           <div className="flex justify-center py-6">
             <Image src="/hugsi-logo.webp" width={150} height={150} alt="logo" />
           </div>
