@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import UserProfileModal from "@/app/Components/pop-up-allusers/page";
 import axios from "axios";
 import Image from "next/image";
@@ -11,8 +11,9 @@ function AllUsers() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
-  const openModal = (user) => {
-    setSelectedUser(user);
+  const openModal = (userId) => {
+    setSelectedUser(userId);
+    console.log(userId,"user")
   };
 
   const closeModal = () => {
@@ -84,7 +85,8 @@ function AllUsers() {
       className="bg-white  border-b-[1px] border-gray-200 "
       
     >
-      <td className="flex justify-center pt-[6px]" onClick={() => openModal(user)}>
+      <td className="flex justify-center pt-[6px]" onClick={() => openModal(user?.id)}>
+      
         <Image
           src={user?.profile_pic || "/na.png"}
           alt={`${user?.name}`}
@@ -108,7 +110,7 @@ function AllUsers() {
     View Profile
   </span>
   <Image
-    onClick={() => openModal(user)}
+    onClick={() => openModal(user?.id)}
     src="/icons/i-button.png"
     width={25}
     height={25}
