@@ -63,7 +63,7 @@ function OverView() {
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 ">
                 Email
               </th>
               <th scope="col" className="px-6 py-3">
@@ -82,7 +82,7 @@ function OverView() {
             {users.slice(-5).map((user, i) => (
               <tr
                 key={user?.id}
-                className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
+                className="bg-white  border-b-[1px] border-gray-200 "
               >
                 <th
                   scope="row"
@@ -100,7 +100,7 @@ function OverView() {
                 <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
                   {user?.name || "N/A"}
                 </td>
-                <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
+                <td className="px-6 py-4 border-gray-200 dark:border-gray-700 ">
                   {user?.email || "N/A"}
                 </td>
                 <td className="px-6 py-4 border-gray-200 dark:border-gray-700">

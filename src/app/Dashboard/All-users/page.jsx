@@ -68,7 +68,7 @@ function AllUsers() {
               <th scope="col" className="px-6 py-3">
                 Date of Birth
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Mobile Number
               </th>
               <th scope="col" className="px-6 py-3">
@@ -81,7 +81,7 @@ function AllUsers() {
   {currentUsers.map((user, i) => (
     <tr
       key={user?.id}
-      className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
+      className="bg-white  border-b-[1px] border-gray-200 "
       
     >
       <td className="flex justify-center pt-[6px]" onClick={() => openModal(user)}>
@@ -102,7 +102,7 @@ function AllUsers() {
       <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
         {user?.dob || "N/A"}
       </td>
-      <td className=" py-4">{user?.phone || "N/A"}</td>
+      <td className=" py-4 text-center">{user?.phone || "N/A"}</td>
       <td className="group relative m-12">
   <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-black group-hover:scale-100 transition-all duration-300 ease-in-out">
     View Profile
