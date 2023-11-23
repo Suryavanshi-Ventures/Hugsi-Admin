@@ -80,29 +80,29 @@ function AllUsers() {
           <tbody>
   {currentUsers.map((user, i) => (
     <tr
-      key={user.id}
+      key={user?.id}
       className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
       
     >
       <td className="flex justify-center pt-[6px]" onClick={() => openModal(user)}>
         <Image
-          src={user.profile_pic || "/na.png"}
-          alt={`${user.name}`}
+          src={user?.profile_pic || "/na.png"}
+          alt={`${user?.name}`}
           width={40}
           height={40}
           className="rounded-full cursor-pointer"
         />
       </td>
       <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
-        {user.name || "N/A"}
+        {user?.name || "N/A"}
       </td>
       <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
-        {user.email || "N/A"}
+        {user?.email || "N/A"}
       </td>
       <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-        {user.dob || "N/A"}
+        {user?.dob || "N/A"}
       </td>
-      <td className=" py-4">{user.phone || "N/A"}</td>
+      <td className=" py-4">{user?.phone || "N/A"}</td>
       <td className="group relative m-12">
   <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-black group-hover:scale-100 transition-all duration-300 ease-in-out">
     View Profile

@@ -8,8 +8,8 @@ function UserProfileModal({ user, onClose }) {
       <div className="bg-white p-6 rounded-lg">
         <button onClick={onClose}>Close</button>
         <Image
-          src={user.profile_pic || "/na.png"}
-          alt={`${user.name}`}
+          src={user?.profile_pic || "/na.png"}
+          alt={`${user?.name}`}
           width={200}
           height={200}
           className="rounded-full"

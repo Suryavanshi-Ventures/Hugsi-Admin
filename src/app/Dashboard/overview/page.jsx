@@ -55,7 +55,7 @@ function OverView() {
       <h2 className="text-lg font-semibold my-4 ">Recent User</h2>
       <div className="relative overflow-x-auto">
         <table className="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className=" text-white uppercase bg-[#FFBF00]  text-[15px] ">
+          <thead className=" text-white  bg-[#FFBF00]  text-[15px] ">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Profile Picture
@@ -81,7 +81,7 @@ function OverView() {
           <tbody>
             {users.slice(-5).map((user, i) => (
               <tr
-                key={user.id}
+                key={user?.id}
                 className="bg-white dark:bg-gray-800 border-b-[1px] border-gray-200 dark:border-gray-700"
               >
                 <th
@@ -89,8 +89,8 @@ function OverView() {
                   className="pl-[80px] font-medium text-gray-900 whitespace-nowrap dark:text-white border-gray-200 dark:border-gray-700"
                 >
                   <Image
-                    src={user.profile_pic || "/na.png"}
-                    alt={`${user.name}`}
+                    src={user?.profile_pic || "/na.png"}
+                    alt={`${user?.name}`}
                     width={40}
                     height={40}
                     className="rounded-full cursor-pointer"
@@ -98,15 +98,15 @@ function OverView() {
                   />
                 </th>
                 <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.name || "N/A"}
+                  {user?.name || "N/A"}
                 </td>
                 <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.email || "N/A"}
+                  {user?.email || "N/A"}
                 </td>
                 <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
-                  {user.dob || "N/A"}
+                  {user?.dob || "N/A"}
                 </td>
-                <td className="px-6 py-4">{user.phone || "N/A"}</td>
+                <td className="px-6 py-4">{user?.phone || "N/A"}</td>
                 <td className="group relative m-12">
   <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-black group-hover:scale-100 transition-all duration-300 ease-in-out">
     View Profile
