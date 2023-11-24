@@ -5,10 +5,10 @@ import React, { useState } from "react";
 
 const TopHeader = () => {
   // const { data: session, status } = useSession();
-  const [SearchInputValue, setSearchInputValue] = useState("");
+ 
 
   return (
-    <section className="px-6 py-5 md:px-14 border-b border-primary">
+    <section className=" py-5 px-14 px border-b border-primary">
       <div className="grid min-[576px]:grid-cols-2 items-center">
         {/* NAME SECTION */}
         <div>
@@ -42,7 +42,7 @@ const TopHeader = () => {
             </svg>
           </div> */}
           {/* SEARCH INPUT */}
-          <div className="relative">
+          {/* <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3 min-[576px]:pl-5">
               <svg
                 width="21"
@@ -65,7 +65,7 @@ const TopHeader = () => {
               value={SearchInputValue}
               onChange={(event) => setSearchInputValue(event.target.value)}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

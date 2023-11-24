@@ -3,6 +3,7 @@ import UserProfileModal from "@/app/Components/pop-up-allusers/page";
 import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import Skeleton from "@/app/Components/skeleton/page";
 
 // import axios from 'axios';
 
@@ -10,6 +11,7 @@ function AllUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const usersPerPage = 10;
   const openModal = (userId) => {
     setSelectedUser(userId);
@@ -32,7 +34,8 @@ function AllUsers() {
         }
       );
 
-      setUsers(response.data.data); // Assuming you want to use response.data.data here
+      setUsers(response.data.data); 
+      setLoading(false) 
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -54,6 +57,10 @@ function AllUsers() {
     <>
       <h2 className="text-lg font-semibold mb-4 ">All users</h2>
       <div className="relative overflow-x-auto">
+      {loading ? (
+         
+         <Skeleton />
+       ) : (
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-white  bg-[#FFBF00] text-[15px]">
             <tr>
@@ -95,18 +102,18 @@ function AllUsers() {
           className="rounded-full cursor-pointer"
         />
       </td>
-      <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
+      <td className="lg:px-6 px-3 lg:py-4 py-2 border-gray-200 dark:border-gray-700 text-center">
         {user?.name || "N/A"}
       </td>
-      <td className="px-6 py-4 border-gray-200 dark:border-gray-700 text-center">
+      <td className="lg:px-6 px-3 lg:py-4 py-2 border-gray-200 dark:border-gray-700 text-center">
         {user?.email || "N/A"}
       </td>
-      <td className="px-6 py-4 border-gray-200 dark:border-gray-700">
+      <td className="lg:px-6 px-3 lg:py-4 py-2 border-gray-200 dark:border-gray-700">
         {user?.dob || "N/A"}
       </td>
       <td className=" py-4 text-center">{user?.phone || "N/A"}</td>
       <td className="group relative m-12">
-  <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-black group-hover:scale-100 transition-all duration-300 ease-in-out">
+  <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-gray-400 group-hover:scale-100 transition-all duration-300 ease-in-out">
     View Profile
   </span>
   <Image
@@ -123,8 +130,9 @@ function AllUsers() {
 </tbody>
 
         </table>
+         )}
 
-        <div className="flex justify-center mt-4 ">
+        <div className="flex justify-center flex-wrap mt-4 ">
           {Array.from({ length: Math.ceil(users.length / usersPerPage) }).map((_, index) => (
             <button
               key={index}

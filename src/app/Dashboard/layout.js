@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 // import './globals.css'
 import Sidebar from '../Components/Sidebar/Sidebar'
 import TopHeader from '../Components/top header/top_header'
-
+import PrivateRoute from '../Components/protected-route/page'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -17,15 +17,21 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className="flex flex-row min-h-screen    ">
           {/* Left Side Bar */}
+          <div >
           <Sidebar />
+          </div>
 
           {/* Right Main section */}
-          <div className="w-full max-[992px]  rounded-[25px] ml-[250px] rounded-l-[25px] bg-white  z-0  h-fit ">
+          <div className="w-full max-[992px]  rounded-[25px] rounded-l-[25px] bg-white  z-0  h-fit ">
             {/* Right TopBar */}
             <TopHeader />
             <hr />
             {/* OTHER CHILDREN WILL LOAD HERE */}
-            <div className="px-6  md:px-14 mt-[15px] bg-white">{children}</div>
+            <div className="px-6  md:px-14 mt-[15px] bg-white">
+              <PrivateRoute>
+              {children}
+              </PrivateRoute>
+              </div>
             </div>
         </div>
       </body>

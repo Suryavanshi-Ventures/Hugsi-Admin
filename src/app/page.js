@@ -9,6 +9,11 @@ export default function Home() {
     password: "",
   });
 
+  const [errors, setErrors] = useState({
+    email_or_phone: "",
+    password: "",
+  });
+
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -18,35 +23,65 @@ export default function Home() {
     });
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { ...errors };
+
+   
+    if (!formData.email_or_phone) {
+      newErrors.email_or_phone = "Email is required";
+      isValid = false;
+    } else {
+      newErrors.email_or_phone = "";
+    }
+
+    
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else {
+      newErrors.password = "";
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleLogin = async (e) => {
-    console.log(process.env.NEXT_PUBLIC_API_URL, "jhvjhvmmhv");
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/signin`,
         formData
       );
-      console.log(response, "res");
+  
       if (response.data.status_code === 200) {
         console.log("Login successful", response.data);
-
-        // localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem(
           "access_token",
           `${process.env.NEXT_PUBLIC_TOKEN_NAME}`
         );
-
         router.push("/Dashboard/All-users");
       } else {
-        console.error("Login failed", response.data);
+       
+        if (response.data.status_code === 401) {
+         
+          setErrors({
+            ...errors,
+            email_or_phone: "Incorrect email or password",
+            password: "Incorrect email or password",
+          });
+        } else {
+          console.error("Login failed", response.data);
+        }
       }
     } catch (error) {
       console.error(
         "Login failed",
         error.response ? error.response.data : error.message
       );
-      
     }
   };
+  
 
   
   return (
@@ -61,7 +96,10 @@ export default function Home() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleLogin();
+              if (validateForm()) {
+                handleLogin();
+              }
+            
             }}
           >
             {/* Email Input */}
@@ -70,11 +108,14 @@ export default function Home() {
                 type="email"
                 id="email"
                 name="email_or_phone"
-                className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500"
+                className="w-full border border-gray-300 px-3 py-2 rounded-xl focus:outline-none focus:border-blue-500"
                 placeholder="Email"
                 value={formData.email_or_phone}
                 onChange={handleInputChange}
               />
+               <div className="mb-2 text-red-500">
+          {errors.email_or_phone && <p>{errors.email_or_phone}</p>}
+        </div>
             </div>
 
             {/* Password Input */}
@@ -83,11 +124,14 @@ export default function Home() {
                 type="password"
                 id="password"
                 name="password"
-                className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500"
+                className="w-full border border-gray-300 px-3 py-2  focus:outline-none focus:border-blue-500 rounded-xl"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
               />
+              <div className="mb-2 text-red-500">
+          {errors.password && <p>{errors.password}</p>}
+        </div>
             </div>
 
             {/* Login Button */}
@@ -95,7 +139,7 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-[#FFBF00] w-[200px] rounded-md text-white px-4 py-2 font-semibold  hover:bg-[#f5c800 focus:outline-none focus:shadow-outline-blue"
+                className="bg-[#FFBF00] w-[200px] rounded-2xl text-white px-4 py-2 font-semibold  hover:bg-[#f5c800 focus:outline-none focus:shadow-outline-blue"
               >
                 Login
               </button>
