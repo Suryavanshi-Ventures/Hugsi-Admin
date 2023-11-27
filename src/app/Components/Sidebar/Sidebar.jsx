@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-const Sidebar = () => {
+  const Sidebar = () => {
   const [open,setOpen] =useState(false)
   const pathname = usePathname();
   const router = useRouter();
