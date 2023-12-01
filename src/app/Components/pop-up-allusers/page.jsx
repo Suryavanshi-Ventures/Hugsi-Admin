@@ -31,7 +31,7 @@ function UserProfileModal({ user, onClose }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   if (!users) {
     return null;
@@ -71,7 +71,7 @@ function UserProfileModal({ user, onClose }) {
             />
           </div>
 
-          <div className="flex rounded-full justify-center pt-[40px]">
+          <div className="flex rounded-full justify-center pt-[50px]">
             <Image
               src={users?.profile_pic || "/na.png"}
               alt={`${users?.name}`}
