@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const isAuthenticated = () => {
     const token = localStorage.getItem("access_token");
   
-    return !!token; // Return true if the token is present, false otherwise
+    return !!token; // true
   };
   
 const PrivateRoute = ({ children }) => {
@@ -15,10 +15,10 @@ const PrivateRoute = ({ children }) => {
   useEffect(() => {
 
 if (!isAuthenticated()) {
-    // User is not authenticated, redirect to the login page
+
     router.push("/");
   }
-}, []);
+}, [router]);
 
   return children;
 };

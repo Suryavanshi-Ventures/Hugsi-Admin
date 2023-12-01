@@ -1,4 +1,4 @@
-// components/LogoutModal.js
+
 import React from "react";
 
 const LogoutModal = ({ isOpen, onClose, onLogout }) => {

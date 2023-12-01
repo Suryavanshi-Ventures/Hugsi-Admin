@@ -10,28 +10,28 @@ function UserProfileModal({ user, onClose }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   // console.log(user,"id")
   // -----------------------------------------
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem("access_token");
-
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_user?id=${user}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setUsers(response.data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/admin_get_user?id=${user}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUsers(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData();
-  }, [fetchData]);
+  }, [user]);
 
   if (!users) {
     return null;
@@ -74,7 +74,7 @@ function UserProfileModal({ user, onClose }) {
           <div className="flex rounded-full justify-center pt-[50px]">
             <Image
               src={users?.profile_pic || "/na.png"}
-              alt={`${users?.name}`}
+              alt={`${users?.name}`}  
               width={150}
               height={150}
               className="rounded-full"
