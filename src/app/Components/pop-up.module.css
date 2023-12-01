@@ -1,0 +1,11 @@
+/* pop-up.module.css */
+.scrollbar_yellow::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar_yellow::-webkit-scrollbar-thumb {
+  background-color: #FFBF00; /* Use the hex code for yellow */
+  border-radius: 6px;
+}
+
+

@@ -41,7 +41,7 @@ function OverView() {
   }, []);
   return (
     <>
-      <div className="md:w-[18%] w-[40%] bg-[#FFBF00] h-[70px] flex  items-center justify-around rounded-md">
+      <div className="sm:w-[20%] w-[40%] bg-[#FFBF00] h-[70px] flex  items-center justify-around rounded-md">
         <div>
           <Image
             src="/profile.png"
@@ -52,7 +52,7 @@ function OverView() {
           />
         </div>
         <div className="text-white font-semibold">
-          Total User {users.length}
+          Total User : {users.length}
         </div>
       </div>
 
@@ -115,16 +115,16 @@ function OverView() {
                </td>
                <td className=" py-4 text-center">{user?.phone || "N/A"}</td>
                <td className="group relative m-12">
-           <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-gray-400 group-hover:scale-100 transition-all duration-300 ease-in-out">
+           {/* <span className="absolute top-[-2px] left-[-15px] scale-0 rounded  text-xs text-gray-400 group-hover:scale-100 transition-all duration-300 ease-in-out">
              View Profile
-           </span>
+           </span> */}
            <Image
              onClick={() => openModal(user?.id)}
              src="/icons/i-button.png"
              width={25}
              height={25}
              alt="i-button"
-             className="cursor-pointer"
+             className="cursor-pointer transition-transform transform hover:scale-125"
            />
          </td>
              </tr>
