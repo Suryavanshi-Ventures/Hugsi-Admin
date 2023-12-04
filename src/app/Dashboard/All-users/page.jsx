@@ -16,7 +16,7 @@ function AllUsers() {
   const usersPerPage = 10;
   const openModal = (userId) => {
     setSelectedUser(userId);
-    console.log(userId, "user");
+    // console.log(userId, "user");
   };
 
   const closeModal = () => {

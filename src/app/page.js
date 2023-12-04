@@ -56,7 +56,7 @@ export default function Home() {
       );
 
       if (response.data.status_code === 200) {
-        console.log("Login successful", response.data);
+        // console.log("Login successful", response.data);
         localStorage.setItem(
           "access_token",
           `${process.env.NEXT_PUBLIC_TOKEN_NAME}`

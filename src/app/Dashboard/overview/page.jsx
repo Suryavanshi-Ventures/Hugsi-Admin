@@ -11,7 +11,7 @@ function OverView() {
   const [loading, setLoading] = useState(true);
   const openModal = (userid) => {
     setSelectedUser(userid);
-    console.log(userid,"id h bero")
+    // console.log(userid,"id h bero")
   };
 
   const closeModal = () => {

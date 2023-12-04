@@ -66,8 +66,8 @@ function UserProfileModal({ user, onClose }) {
   const handleCancelChange = () => {
     setOpenConfirmationPass(false);
   };
-console.log(newPassword,"newpass")
-console.log(user,"user")
+// console.log(newPassword,"newpass")
+// console.log(user,"user")
   const handleChangePassword = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -354,7 +354,7 @@ console.log(user,"user")
           </div>
           {/* -------------change password------------------------ */}
 
-          <div className="flex my-5 gap-1">
+          <div className="flex lg:flex-row flex-col my-5 gap-1">
             <button
               onClick={HandleOpenInput}
               className="relative inline-flex items-center justify-center px-3 py-2 overflow-hidden  font-medium tracking-tighter hover:font-semibold  text-black bg-[#F6F6F6] rounded-lg group "
