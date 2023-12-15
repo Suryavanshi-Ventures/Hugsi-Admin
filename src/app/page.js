@@ -123,13 +123,13 @@ export default function Home() {
                   onChange={handleInputChange}
                 />
                 <div className="mb-2 text-red-500">
-                  {errors.email_or_phone && <p >{errors.email_or_phone}</p>}
+                  {errors.email_or_phone && <p>{errors.email_or_phone}</p>}
                 </div>
               </div>
 
               {/* Password Input */}
               <div className="mb-4 px-[50px] py-[10px] ">
-              <label className="">Password</label>
+                <label className="">Password</label>
                 <input
                   type="password"
                   id="password"
