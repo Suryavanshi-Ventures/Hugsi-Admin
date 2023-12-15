@@ -2,16 +2,18 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
+const NotificationModal = ({ isOpen, onClose, userId, userAllDetails,sendingSelectedIdsToNotification }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [titleError, setTitleError] = useState("");
   const [bodyError, setBodyError] = useState("");
-  console.log(userId);
+const [loading,setLoading]=useState(false)
   const handleSendNotification = async () => {
+    setLoading(true)
     if (!title.trim()) {
       setTitleError("Title cannot be empty.");
       setBodyError(""); // Reset body error
+      setLoading(false)
       return;
     }
 
@@ -19,6 +21,7 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
     if (!body.trim()) {
       setBodyError("Body cannot be empty.");
       setTitleError(""); // Reset title error
+      setLoading(false)
       return;
     }
 
@@ -27,7 +30,19 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
     setBodyError("");
     try {
       const token = localStorage.getItem("access_token");
-      const userIds = [userId];
+    //   const userIds = [userId];
+
+      let userIds;
+
+    if (sendingSelectedIdsToNotification && sendingSelectedIdsToNotification.length > 0) {
+      // Use the provided array of user IDs
+      userIds = sendingSelectedIdsToNotification;
+    } else {
+      // selecting individual   userId if multiple id is not available
+      userIds = [userId];
+    }
+
+    console.log(userIds,"ha bhai final check")
       const notificationData = {
         user_ids: userIds,
         title: title,
@@ -47,10 +62,14 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
 
       if (response.data.status_code === 200) {
         alert("Notification Send successfully");
+        setLoading(false)
+        localStorage.removeItem("selectedIds");
       } else {
       }
     } catch (error) {
+        alert("Can't Send Notification")
       console.error("Error to Send  Notification:", error);
+      setLoading(false)
     }
 
     onClose();
@@ -64,10 +83,17 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
     >
       <div className="flex justify-center items-center h-screen">
         <div className="bg-white w-1/3 p-8 rounded-md">
-          <h2 className="text-lg font-semibold mb-4">
-            Sending Notification to{" "}
-            <span className="text-[#FFBF00]">{userAllDetails?.name}</span>
-          </h2>
+        {sendingSelectedIdsToNotification && sendingSelectedIdsToNotification.length > 0 ? (
+            <h2 className="text-lg font-semibold mb-4">
+              Sending Notification with{" "}
+              <span className="text-[#FFBF00]">{sendingSelectedIdsToNotification.length}</span> {" "}users
+            </h2>
+          ) : (
+            <h2 className="text-lg font-semibold mb-4">
+              Sending Notification to{" "}
+              <span className="text-[#FFBF00]">{userAllDetails?.name}</span>
+            </h2>
+          )}
           <div className="mb-4">
             <label
               htmlFor="title"
@@ -121,7 +147,7 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails }) => {
             >
               <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#FFBF00] rounded-full group-hover:w-56 group-hover:h-56"></span>
               <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent"></span>
-              <span className="relative">Send Notification</span>
+              <span className="relative"> {loading?"Sending...":"Send Notification  "}</span>
             </button>
           </div>
         </div>
