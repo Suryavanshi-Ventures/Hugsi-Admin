@@ -8,6 +8,7 @@ const NotificationModal = ({ isOpen, onClose, userId, userAllDetails,sendingSele
   const [titleError, setTitleError] = useState("");
   const [bodyError, setBodyError] = useState("");
 const [loading,setLoading]=useState(false)
+console.log(sendingSelectedIdsToNotification,"longone")
   const handleSendNotification = async () => {
     setLoading(true)
     if (!title.trim()) {

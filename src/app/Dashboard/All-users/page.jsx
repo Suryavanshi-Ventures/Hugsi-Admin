@@ -96,29 +96,41 @@ function AllUsers() {
     setCurrentPage(pageNumber);
   };
   // ----------------------------------
-const handleCheckboxChange = (userId) => {
+  const handleCheckboxChange = (userId) => {
     if (userId === 'select-all') {
+      console.log(userId,"userid")
       // "Select All" checkbox clicked
       toggleSelectAll();
     } else {
-      if (selectAllChecked) {
+      setSelectedId((prevSelected) => {
+        const isSelected = prevSelected.includes(userId);
+        // console.log(isSelected,"isselected")
         // If "Select All" is active, toggle the specific checkbox only
-        setSelectedId((prevSelected) =>
-          prevSelected.includes(userId)
+        if (selectAllChecked) {
+          // console.log(selectAllChecked,"selectAllChecked")
+          return isSelected
             ? prevSelected.filter((id) => id !== userId)
-            : [...prevSelected, userId]
-        );
-      } else {
-        // If "Select All" is not active, handle checkboxes as usual
-        const isSelected = selectedId.includes(userId);
-        setSelectedId((prevSelected) =>
-          isSelected
+            : [...prevSelected, userId];
+        } else {
+          // If "Select All" is not active, handle checkboxes as usual
+          return isSelected
             ? prevSelected.filter((id) => id !== userId)
-            : [...prevSelected, userId]
-        );
-      }
+            : [...prevSelected, userId];
+        }
+      });
+  
+      // Update selectAllChecked based on the length of the selected IDs array
+      setSelectAllChecked((prevSelectAll) => {
+        if (prevSelectAll && selectedId.length === users.length - 1) {
+          return false;
+        }
+        return selectedId.length === users.length - 1;
+      });
     }
   };
+  
+  
+  
   
   // -------------------------------------
 
@@ -147,7 +159,7 @@ const handleCheckboxChange = (userId) => {
                 <th scope="col" className=" text-center py-3 ">
                   {/* <button onClick={toggleSelectAll}> onClick={toggleSelectAll}   </button> */}
                   
-                    <div className="flex justify-center"><Image   src="/selectall.svg" height={30} width={30} alt="Select-all-image" className="cursor-pointer"/></div>
+                    <div className="flex justify-center"><Image onClick={toggleSelectAll}  src="/selectall.svg" height={25} width={25} alt="Select-all-image" className="cursor-pointer"/></div>
                  
                   </th>
                 <th scope="col" className="  text-center py-3 ">
