@@ -13,7 +13,7 @@ function UserProfileModal({ user, onClose }) {
   const [openConfirmationPass, setOpenConfirmationPass] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirm,setConfirm]=useState()
-  // console.log(user,"id")
+  console.log(user,"user")
   // -----------------------------------------
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +41,10 @@ function UserProfileModal({ user, onClose }) {
   if (!users) {
     return null;
   }
+
+console.log(users,"usersDetails")
+
+
 
   const handleCopyLink = async (index) => {
     try {
@@ -211,6 +215,15 @@ function UserProfileModal({ user, onClose }) {
                   />
                 </div>
                 <div> {users?.connections || "N/A"}</div>
+              </div>
+            </div>
+            <div>
+              <div>Pending request:</div>
+              <div className="flex justify-around border gap-5 p-[10px] bg-[#ffca2a1c] rounded-lg">
+                <div>
+                  <Image src="/pending-icon.png" width={20} height={22} alt="icon" />
+                </div>
+                <div> {users?.pending_reqs || 0}</div>
               </div>
             </div>
           </div>

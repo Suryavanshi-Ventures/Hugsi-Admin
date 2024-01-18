@@ -12,10 +12,11 @@ import NotificationModal from "@/app/Components/notification-modal/page";
 function AllUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [SelectedUserNameForNotification, setSelectedUserNameForNotification] = useState(null); 
-  const [selectAllChecked, setSelectAllChecked] = useState(false); 
+  const [SelectedUserNameForNotification, setSelectedUserNameForNotification] =
+    useState(null);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
-  const [sendingSelectedIds,setSendingSelectedIds]=useState()
+  const [sendingSelectedIds, setSendingSelectedIds] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [notificationModalVisible, setNotificationModalVisible] =
@@ -29,7 +30,7 @@ function AllUsers() {
 
   const openNotificationModal = (userId) => {
     setAllDetailsOfUser(userId);
-    setSendingSelectedIds(selectedId)
+    setSendingSelectedIds(selectedId);
     setNotificationModalVisible(!notificationModalVisible);
     setSelectedUserNameForNotification(userId?.id);
   };
@@ -37,7 +38,7 @@ function AllUsers() {
   const toggleSelectAll = () => {
     setSelectAllChecked(!selectAllChecked);
     // If selectAllChecked is true, clear selected IDs; if false, set all user IDs
-    setSelectedId(selectAllChecked ? [] : users.map(user => user.id));
+    setSelectedId(selectAllChecked ? [] : users.map((user) => user.id));
   };
 
   const closeModal2 = () => {
@@ -46,9 +47,9 @@ function AllUsers() {
   const closeModal = () => {
     setSelectedUser(null);
   };
-  const handleMultipleIds =()=>{
+  const handleMultipleIds = () => {
     setNotificationModalVisible(!notificationModalVisible);
-  }
+  };
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -97,8 +98,8 @@ function AllUsers() {
   };
   // ----------------------------------
   const handleCheckboxChange = (userId) => {
-    if (userId === 'select-all') {
-      console.log(userId,"userid")
+    if (userId === "select-all") {
+      console.log(userId, "userid");
       // "Select All" checkbox clicked
       toggleSelectAll();
     } else {
@@ -118,7 +119,7 @@ function AllUsers() {
             : [...prevSelected, userId];
         }
       });
-  
+
       // Update selectAllChecked based on the length of the selected IDs array
       setSelectAllChecked((prevSelectAll) => {
         if (prevSelectAll && selectedId.length === users.length - 1) {
@@ -128,10 +129,7 @@ function AllUsers() {
       });
     }
   };
-  
-  
-  
-  
+
   // -------------------------------------
 
   return (
@@ -139,12 +137,14 @@ function AllUsers() {
       <div className="flex justify-between">
         <h2 className="text-lg font-semibold mb-4 ">All users</h2>
         {selectedId.length > 1 ? (
-          <button onClick={handleMultipleIds} className="mb-4 flex   pl-3 py-2 w-40  text-white bg-[#FFBF00] rounded-lg font-semibold text-center transition duration-200 ease-out hover:shadow-md">
+          <button
+            onClick={handleMultipleIds}
+            className="mb-4 flex   pl-3 py-2 w-40  text-white bg-[#FFBF00] rounded-lg font-semibold text-center transition duration-200 ease-out hover:shadow-md"
+          >
             Send Notification
           </button>
-        ) : 
-
-          (<button className="mb-4  hidden  bg-yellow-400">
+        ) : (
+          <button className="mb-4  hidden  bg-yellow-400">
             Send notification
           </button>
         )}
@@ -158,10 +158,18 @@ function AllUsers() {
               <tr>
                 <th scope="col" className=" text-center py-3 ">
                   {/* <button onClick={toggleSelectAll}> onClick={toggleSelectAll}   </button> */}
-                  
-                    <div className="flex justify-center"><Image onClick={toggleSelectAll}  src="/selectall.svg" height={25} width={25} alt="Select-all-image" className="cursor-pointer"/></div>
-                 
-                  </th>
+
+                  <div className="flex justify-center">
+                    <Image
+                      onClick={toggleSelectAll}
+                      src="/selectall.svg"
+                      height={25}
+                      width={25}
+                      alt="Select-all-image"
+                      className="cursor-pointer"
+                    />
+                  </div>
+                </th>
                 <th scope="col" className="  text-center py-3 ">
                   Profile Picture
                 </th>
@@ -192,8 +200,10 @@ function AllUsers() {
                     <input
                       type="checkbox"
                       onChange={() => handleCheckboxChange(user?.id)}
-                      checked={selectAllChecked || selectedId.includes(user?.id)}
-                     
+                      checked={
+                        selectAllChecked || selectedId.includes(user?.id)
+                      }
+                      className="accent-yellow-700"
                     />
                   </td>
 
