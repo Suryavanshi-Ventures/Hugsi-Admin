@@ -12,8 +12,8 @@ function UserProfileModal({ user, onClose }) {
   const [openInput, setOpeninput] = useState(false);
   const [openConfirmationPass, setOpenConfirmationPass] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const [confirm,setConfirm]=useState()
-  console.log(user,"user")
+  const [confirm, setConfirm] = useState();
+  console.log(user, "user");
   // -----------------------------------------
   useEffect(() => {
     const fetchData = async () => {
@@ -42,10 +42,6 @@ function UserProfileModal({ user, onClose }) {
     return null;
   }
 
-console.log(users,"usersDetails")
-
-
-
   const handleCopyLink = async (index) => {
     try {
       await navigator.clipboard.writeText(users?.wishlist[index]?.link);
@@ -70,12 +66,12 @@ console.log(users,"usersDetails")
   const handleCancelChange = () => {
     setOpenConfirmationPass(false);
   };
-// console.log(newPassword,"newpass")
-// console.log(user,"user")
+  // console.log(newPassword,"newpass")
+  // console.log(user,"user")
   const handleChangePassword = async () => {
     try {
       const token = localStorage.getItem("access_token");
-  
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/admin_change_user_password`,
         {
@@ -90,19 +86,26 @@ console.log(users,"usersDetails")
       );
 
       if (response.data.status_code === 200) {
-        setConfirm(true)
-        alert("Password Change successfully")
+        setConfirm(true);
+        alert("Password Change successfully");
+      } else {
+        setConfirm(false);
       }
-  else{
-    setConfirm(false)
-  }
       setUsers(response.data.data);
     } catch (error) {
       console.error("Error updating password:", error);
     }
     setOpenConfirmationPass(false);
   };
-  
+
+  const formatDateTime = (dateTimeString) => {
+    if (!dateTimeString) {
+      return { date: '0-0-0000', time: '00:00' };
+    }
+    
+    const [date, time] = dateTimeString.split(' ');
+    return { date, time };
+  };
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center mx-auto max-w-screen-3xl ">
@@ -130,6 +133,17 @@ console.log(users,"usersDetails")
               height={150}
               className="rounded-full"
             />
+          </div>
+        </div>
+
+        <div className="flex justify-end text-xs gap-2 my-[12px] px-[60px]">
+          <p className="font-bold text-[#FFBF00]">Last Login : </p>
+          <div className="text-gray-500">
+            {formatDateTime(users?.last_login).date}
+          </div>
+          <span className="text-gray-500">at</span>
+          <div className="text-gray-500">
+            {formatDateTime(users?.last_login).time}
           </div>
         </div>
         {/* -----------------------form---------------------- */}
@@ -221,7 +235,12 @@ console.log(users,"usersDetails")
               <div>Pending request:</div>
               <div className="flex justify-around border gap-5 p-[10px] bg-[#ffca2a1c] rounded-lg">
                 <div>
-                  <Image src="/pending-icon.png" width={20} height={22} alt="icon" />
+                  <Image
+                    src="/pending-icon.png"
+                    width={20}
+                    height={22}
+                    alt="icon"
+                  />
                 </div>
                 <div> {users?.pending_reqs || 0}</div>
               </div>
@@ -411,8 +430,6 @@ console.log(users,"usersDetails")
                 </button>{" "}
               </>
             )}
-          
-
           </div>
           {/* <div>
            {confirm && (<div className="text-green-500 font-semibold">
