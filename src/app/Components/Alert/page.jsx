@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 
 const CustomAlert = ({ message, duration, onClose, position, type }) => {
