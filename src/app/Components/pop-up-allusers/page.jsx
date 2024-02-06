@@ -100,13 +100,13 @@ function UserProfileModal({ user, onClose }) {
 
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) {
-      return { date: '0-0-0000', time: '00:00' };
+      return { date: "0-0-0000", time: "00:00" };
     }
-    
-    const [date, time] = dateTimeString.split(' ');
+
+    const [date, time] = dateTimeString.split(" ");
     return { date, time };
   };
-  
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center mx-auto max-w-screen-3xl ">
       <div

@@ -1,31 +1,70 @@
 "use client";
-import UserProfileModal from "@/app/Components/pop-up-allusers/page";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import UserProfileModal from "@/app/Components/pop-up-allusers/page";
 import Skeleton from "@/app/Components/skeleton/page";
 import Pagination from "@/app/Components/pagination/page";
 import NotificationModal from "@/app/Components/notification-modal/page";
 
-// import axios from 'axios';
-
 function AllUsers() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [SelectedUserNameForNotification, setSelectedUserNameForNotification] =
-    useState(null);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
   const [sendingSelectedIds, setSendingSelectedIds] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [SelectedUserNameForNotification, setSelectedUserNameForNotification] =
+    useState(null);
   const [notificationModalVisible, setNotificationModalVisible] =
     useState(false);
   const [allDetailsOfUser, setAllDetailsOfUser] = useState();
+  const [InputValue, setInputValue] = useState("");
+  const [FilteredOptionsMedicalCond, setFilteredOptionsMedicalCond] = useState(
+    []
+  );
+
   const usersPerPage = 10;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setSendingSelectedIds(selectedId);
+  }, [selectedId]);
+
+  useEffect(() => {
+    const storedSelectedIds = localStorage.getItem("selectedIds");
+    if (storedSelectedIds) {
+      setSelectedId(JSON.parse(storedSelectedIds));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selectedIds", JSON.stringify(selectedId));
+  }, [selectedId]);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setUsers(response.data.data);
+      setFilteredOptionsMedicalCond(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const openModal = (userId) => {
     setSelectedUser(userId);
-    // console.log(userId, "user");
   };
 
   const openNotificationModal = (userId) => {
@@ -37,90 +76,40 @@ function AllUsers() {
 
   const toggleSelectAll = () => {
     setSelectAllChecked(!selectAllChecked);
-    // If selectAllChecked is true, clear selected IDs; if false, set all user IDs
     setSelectedId(selectAllChecked ? [] : users.map((user) => user.id));
+  };
+
+  const closeModal = () => {
+    setSelectedUser(null);
   };
 
   const closeModal2 = () => {
     setNotificationModalVisible(null);
   };
-  const closeModal = () => {
-    setSelectedUser(null);
-  };
+
   const handleMultipleIds = () => {
     setNotificationModalVisible(!notificationModalVisible);
   };
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_users`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setUsers(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const OnInputChange = (e) => {
+    const text = e.target.value;
+    setInputValue(text);
+    const filtered = users.filter((option) =>
+      option?.name?.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredOptionsMedicalCond(filtered);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-  // -------------------------------------------
-  useEffect(() => {
-    setSendingSelectedIds(selectedId);
-  }, [selectedId]);
-  // ----------------getting id's from local storage---------------------
-  useEffect(() => {
-    const storedSelectedIds = localStorage.getItem("selectedIds");
-    if (storedSelectedIds) {
-      setSelectedId(JSON.parse(storedSelectedIds));
-    }
-  }, []);
-  // ----------------for setting id's in local storage---------------------
-  useEffect(() => {
-    localStorage.setItem("selectedIds", JSON.stringify(selectedId));
-  }, [selectedId]);
-
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  // ----------------------------------
   const handleCheckboxChange = (userId) => {
     if (userId === "select-all") {
-      console.log(userId, "userid");
-      // "Select All" checkbox clicked
       toggleSelectAll();
     } else {
       setSelectedId((prevSelected) => {
         const isSelected = prevSelected.includes(userId);
-        // console.log(isSelected,"isselected")
-        // If "Select All" is active, toggle the specific checkbox only
-        if (selectAllChecked) {
-          // console.log(selectAllChecked,"selectAllChecked")
-          return isSelected
-            ? prevSelected.filter((id) => id !== userId)
-            : [...prevSelected, userId];
-        } else {
-          // If "Select All" is not active, handle checkboxes as usual
-          return isSelected
-            ? prevSelected.filter((id) => id !== userId)
-            : [...prevSelected, userId];
-        }
+        return isSelected
+          ? prevSelected.filter((id) => id !== userId)
+          : [...prevSelected, userId];
       });
-
-      // Update selectAllChecked based on the length of the selected IDs array
       setSelectAllChecked((prevSelectAll) => {
         if (prevSelectAll && selectedId.length === users.length - 1) {
           return false;
@@ -130,24 +119,69 @@ function AllUsers() {
     }
   };
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = FilteredOptionsMedicalCond.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   // -------------------------------------
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h2 className="text-lg font-semibold mb-4 ">All users</h2>
-        {selectedId.length > 1 ? (
-          <button
-            onClick={handleMultipleIds}
-            className="mb-4 flex   pl-3 py-2 w-40  text-white bg-[#FFBF00] rounded-lg font-semibold text-center transition duration-200 ease-out hover:shadow-md"
-          >
-            Send Notification
-          </button>
-        ) : (
-          <button className="mb-4  hidden  bg-yellow-400">
-            Send notification
-          </button>
-        )}
+      <div className="flex items-center justify-between my-5">
+        <div className="flex justify-center items-center">
+          <h2 className="text-lg font-semibold  ">All users</h2>
+        </div>
+
+        <div className="flex items-center  gap-5">
+          <div className="flex   items-center ">
+            {/* SEARCH INPUT */}
+            <div className="relative">
+              <span className="absolute top-0  inset-y-0 left-0 flex items-center  min-[576px]:pl-5">
+                <svg
+                  width="21"
+                  height="21"
+                  viewBox="0 0 21 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.1759 13.201C15.267 11.8802 15.9561 10.1862 15.9561 8.31985C15.9561 4.12777 12.5393 0.710938 8.34719 0.710938C4.15511 0.710938 0.738281 4.12777 0.738281 8.31985C0.738281 12.5119 4.15511 15.9288 8.34719 15.9288C10.1848 15.9288 11.9076 15.2684 13.2284 14.1486L19.1432 20.0634C19.2868 20.207 19.4591 20.2644 19.6314 20.2644C19.8036 20.2644 19.9759 20.207 20.1195 20.0634C20.3779 19.805 20.3779 19.3456 20.1195 19.0872L14.1759 13.201ZM8.31848 14.5505C4.87294 14.5505 2.08779 11.7654 2.08779 8.31985C2.08779 4.8743 4.87294 2.08916 8.31848 2.08916C11.764 2.08916 14.5492 4.8743 14.5492 8.31985C14.5492 11.7654 11.764 14.5505 8.31848 14.5505Z"
+                    fill="#C7C7C7"
+                  />
+                </svg>
+              </span>
+              <input
+                type="text"
+                name="search"
+                className="w-full pl-10 min-[576px]:pl-14  border focus-visible:outline-primary border-primary rounded-lg p-[10px] text-xs md:text-sm"
+                placeholder="Search..."
+                value={InputValue}
+                onChange={OnInputChange}
+                // onChange={(event) => setSearchInputValue(event.target.value)}
+              />
+            </div>
+          </div>
+
+          {selectedId.length > 1 ? (
+            <button
+              onClick={handleMultipleIds}
+              className=" flex   pl-3 py-2 w-40  text-white bg-[#FFBF00] rounded-lg font-semibold text-center transition duration-200 ease-out hover:shadow-md"
+            >
+              Send Notification
+            </button>
+          ) : (
+            <button className="mb-4  hidden  bg-yellow-400">
+              Send notification
+            </button>
+          )}
+        </div>
       </div>
       <div className="relative overflow-x-auto">
         {loading ? (
