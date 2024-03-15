@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "@/app/Components/skeleton/page";
 import Image from "next/image";
+import UserProfileModal from "@/app/Components/pop-up-allusers/page";
 import axios from "axios";
 import Link from "next/link";
 
 const Page = () => {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [recentActiveUsers, setRecentActiveUsers] = useState([]);
@@ -15,6 +17,12 @@ const Page = () => {
   const [FilteredOptionsMedicalCond, setFilteredOptionsMedicalCond] = useState(
     []
   );
+  const openModal = (userId) => {
+    setSelectedUser(userId);
+  };
+  const closeModal = () => {
+    setSelectedUser(null);
+  };
   const [
     filteredActiveOptionsMedicalCond,
     setFilteredActiveOptionsMedicalCond,
@@ -131,17 +139,17 @@ const Page = () => {
           <div className="grid grid-cols-3 gap-4">
             <div className="rounded-lg  flex flex-col gap-2 bg-[#FFEFE7] p-6">
               <h4 className="font-medium text-lg">Total Users</h4>
-              <h1 className="font-medium text-3xl">{users.length}K</h1>
+              <h1 className="font-medium text-3xl">{users.length}</h1>
             </div>
             <div className="rounded-lg  flex flex-col gap-2 bg-[#E8F0FB] p-6">
               <h4 className="font-medium text-lg">Active Users</h4>
               <h1 className="font-medium text-3xl">
-                {recentActiveUsers.length}K
+                {recentActiveUsers.length}
               </h1>
             </div>
             <div className="rounded-lg  flex flex-col gap-2 bg-[#FDEBF9] p-6">
               <h4 className="font-medium text-lg">Recent Users</h4>
-              <h1 className="font-medium text-3xl">{users.length}K</h1>
+              <h1 className="font-medium text-3xl">{users.length}</h1>
             </div>
           </div>
 
@@ -357,6 +365,9 @@ const Page = () => {
                 </div>
               )}
             </div>
+            {selectedUser && (
+              <UserProfileModal user={selectedUser} onClose={closeModal} />
+            )}
           </div>
         </div>
       </div>
