@@ -66,7 +66,7 @@ const Page = () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_users?filltr=recentactive`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin_get_users`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -139,13 +139,13 @@ const Page = () => {
           <div className="grid grid-cols-3 gap-4">
             <div className="rounded-lg  flex flex-col gap-2 bg-[#FFEFE7] p-6">
               <h4 className="font-medium text-lg">Total Users</h4>
-              <h1 className="font-medium text-3xl">{users.length}</h1>
-            </div>
-            <div className="rounded-lg  flex flex-col gap-2 bg-[#E8F0FB] p-6">
-              <h4 className="font-medium text-lg">Active Users</h4>
               <h1 className="font-medium text-3xl">
                 {recentActiveUsers.length}
               </h1>
+            </div>
+            <div className="rounded-lg  flex flex-col gap-2 bg-[#E8F0FB] p-6">
+              <h4 className="font-medium text-lg">Active Users</h4>
+              <h1 className="font-medium text-3xl">{users.length}</h1>
             </div>
             <div className="rounded-lg  flex flex-col gap-2 bg-[#FDEBF9] p-6">
               <h4 className="font-medium text-lg">Recent Users</h4>
@@ -203,7 +203,7 @@ const Page = () => {
                 <Skeleton />
               ) : (
                 <div className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  {currentActiveUsers.map((user, i) => (
+                  {currentActiveUsers.slice(0, 5).map((user, i) => (
                     <div
                       key={user?.id}
                       className="bg-[#FAFAFA] border border-[#E0E0E0] flex justify-between px-4 rounded-md mb-2"
