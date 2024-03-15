@@ -170,7 +170,7 @@ const Page = () => {
                   type="text"
                   name="search"
                   className="pl-10 min-[576px]:pl-10 w-2/6 border cursor-pointer text-gray-400 border-[#C7C7C7]  px-3 py-1 rounded-[7px] focus:ring-0.5 focus:shadow-sm focus:shadow-[#FFBF00] focus:ring-[#FFBF00] focus:border-[#FFBF00] transition-all text-xs md:text-sm"
-                  placeholder="This Week"
+                  placeholder="Search..."
                   value={InputActiveValue}
                   onChange={OnInputActiveChange}
                 />{" "}
@@ -284,7 +284,7 @@ const Page = () => {
                   type="text"
                   name="search"
                   className="pl-10 min-[576px]:pl-10 w-3/4 border cursor-pointer text-gray-400 border-[#C7C7C7]  px-3 py-1 rounded-[7px] focus:ring-0.5 focus:shadow-sm focus:shadow-[#FFBF00] focus:ring-[#FFBF00] focus:border-[#FFBF00] transition-all text-xs md:text-sm"
-                  placeholder="This Week"
+                  placeholder="Search..."
                   value={InputValue}
                   onChange={OnInputChange}
                 />{" "}
