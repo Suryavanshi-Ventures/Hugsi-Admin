@@ -5,19 +5,13 @@ import React, { useState } from "react";
 
 const TopHeader = () => {
   // const { data: session, status } = useSession();
- 
 
   return (
-    <section className=" py-5 px-14 px border-b border-primary">
+    <section className=" py-5 px-14 border-b border-[#F1F1F1]">
       <div className="grid min-[576px]:grid-cols-2 items-center">
         {/* NAME SECTION */}
         <div>
-         
-            <h5 className="text-sm md:text-base font-semibold mb-1">
-              Hi 
-            
-            </h5>
-         
+          <h5 className="text-sm md:text-base font-semibold mb-1">Hi</h5>
 
           <p className="font-bold text-lg md:text-2xl">Welcome Back!</p>
         </div>
